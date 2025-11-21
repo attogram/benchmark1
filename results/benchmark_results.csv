@@ -1,38 +1,38 @@
-function,iterations,c_time,php_time,c_vs_php_%,name,value
-password_hash,100,9.165987000000,8.575855016708,-6.00,,
-sha256,100000,0.484612000000,0.902697801590,46.00,,
-substr,100000,0.000001000000,0.004388093948,99.00,,
-gmp_init,100000,0.012175000000,0.018620014191,34.00,,
-gmp_mul,100000,0.002716000000,0.015922069550,82.00,,
-gmp_add,100000,0.001070000000,0.014786958694,92.00,,
-gmp_div,100000,0.002943000000,0.021840095520,86.00,,
-hexdec,100000,0.009017000000,0.010314941406,12.00,,
-get_time,100000,0.000371000000,0.003828048706,90.00,,
-date_math_add,100000,0.000315000000,0.004621982574,93.00,,
-date_math_subtract,100000,0.000352000000,0.004645109177,92.00,,
-microtime,100000,0.002558000000,0.005057811737,49.00,,
-,,,,,
-,,,,,# Test Parameters,
-,,,,,parameter,value
-,,,,,iterations_crypto,100
-,,,,,iterations_fast,100000
-,,,,,password,correcthorsebatterystaple
-,,,,,short_string,hello world
-,,,,,long_string,ncn1FclZg60ydYehcy3c...
-,,,,,substr_start,6
-,,,,,substr_length,5
-,,,,,gmp_a,1234567890123456789012345678901234567890
-,,,,,gmp_b,9876543210987654321098765432109876543210
-,,,,,hex_string,a1b2c3d4e5f6a1b2c3d4e5f6
-,,,,,seconds_to_add,86400
-,,,,,seconds_to_subtract,3600
-,,,,,
-,,,,,# System Specifications,
-,,,,,spec,value
-,,,,,os,"Linux devbox 6.8.0 #1 SMP PREEMPT_DYNAMIC Fri Oct 31 08:51:12 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux"
-,,,,,cpu,"Intel(R) Xeon(R) Processor @ 2.30GHz"
-,,,,,memory,7.8Gi
-,,,,,c_compiler,"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
-,,,,,glibc,"ldd (Ubuntu GLIBC 2.39-0ubuntu8.6) 2.39"
-,,,,,php_version,"PHP 8.3.6 (cli) (built: Jul 14 2025 18:30:55) (NTS)"
-,,,,,php_modules,"[PHP Modules],calendar,Core,ctype,date,exif,FFI,fileinfo,filter,ftp,gettext,gmp,hash,iconv,json,libxml,openssl,pcntl,pcre,PDO,Phar,posix,random,readline,Reflection,session,shmop,sockets,sodium,SPL,standard,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib,,[Zend Modules],Zend OPcache,"
+function,iterations,c_time,php_time,c_vs_php_%,name,value,
+password_hash,1000,83.655093000000,88.015609979630,4.00,,,
+sha256,100000,0.550050000000,0.959815025330,42.00,,,
+substr,100000,0.000000000000,0.004470825195,100.00,,,
+gmp_init,100000,0.012998000000,0.019080162048,31.00,,,
+gmp_mul,100000,0.002712000000,0.016685962677,83.00,,,
+gmp_add,100000,0.001097000000,0.015625000000,92.00,,,
+gmp_div,100000,0.003084000000,0.022113084793,86.00,,,
+hexdec,100000,0.009360000000,0.010897159576,14.00,,,
+get_time,100000,0.000377000000,0.004231929779,91.00,,,
+date_math_add,100000,0.000298000000,0.004709005356,93.00,,,
+date_math_subtract,100000,0.000296000000,0.004934072495,94.00,,,
+microtime,100000,0.002653000000,0.006472110748,59.00,,,
+,,,,,,,
+,,,,,# Test Parameters,,
+,,,,,parameter,value,
+,,,,,iterations_crypto,1000,
+,,,,,iterations_fast,100000,
+,,,,,password,correcthorsebatterystaple,
+,,,,,short_string,hello world,
+,,,,,long_string,hRs98KJ6tMWEtnxJ8JAO...,
+,,,,,substr_start,6,
+,,,,,substr_length,5,
+,,,,,gmp_a,1234567890123456789012345678901234567890,
+,,,,,gmp_b,9876543210987654321098765432109876543210,
+,,,,,hex_string,a1b2c3d4e5f6a1b2c3d4e5f6,
+,,,,,seconds_to_add,86400,
+,,,,,seconds_to_subtract,3600,
+,,,,,,,
+,,,,,# System Specifications,,
+,,,,,spec,value,
+,,,,,os,"Linux devbox 6.8.0 #1 SMP PREEMPT_DYNAMIC Fri Oct 31 08:51:12 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux",
+,,,,,cpu,"Intel(R) Xeon(R) Processor @ 2.30GHz",
+,,,,,memory,7.8Gi,
+,,,,,c_compiler,"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+,,,,,glibc,"ldd (Ubuntu GLIBC 2.39-0ubuntu8.6) 2.39",
+,,,,,php_version,"PHP 8.3.6 (cli) (built: Jul 14 2025 18:30:55) (NTS)",
+,,,,,php_modules,"[PHP Modules],calendar,Core,ctype,date,exif,FFI,fileinfo,filter,ftp,gettext,gmp,hash,iconv,json,libxml,openssl,pcntl,pcre,PDO,Phar,posix,random,readline,Reflection,session,shmop,sockets,sodium,SPL,standard,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib,,[Zend Modules],Zend OPcache,",
