@@ -10,7 +10,7 @@ MEM_INFO=$(free -h | grep "Mem:" | awk '{print $2}')
 PHP_VERSION=$(php -v | head -n 1)
 PHP_MODULES=$(php -m | tr '\n' ', ' | sed 's/,$//')
 C_VERSION=$(gcc --version | head -n 1)
-GLIBC_VERSION=$(ldd --version | head -n 1)
+GLIBC_VERSION=$(getconf GNU_LIBC_VERSION)
 
 # --- Configuration ---
 ITERATIONS_CRYPTO=${1:-1000}
