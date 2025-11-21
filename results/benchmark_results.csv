@@ -1,34 +1,38 @@
 function,c_time_s,php_time_s,c_vs_php_improvement_%
-password_hash,11.962645000000,12.218259096146,2.00
-sha256,0.482854000000,0.897243022919,46.00
-substr,0.000000000000,0.004359006882,100.00
-gmp_init,0.012191000000,0.018500089645,34.00
-gmp_mul,0.002703000000,0.015805959702,82.00
-gmp_add,0.001030000000,0.014513015747,92.00
-gmp_div,0.002875000000,0.019615888596,85.00
-hexdec,0.009260000000,0.010425090790,11.00
-get_time,0.000410000000,0.003823995590,89.00
-date_math_add,0.000303000000,0.004647016525,93.00
-date_math_subtract,0.000304000000,0.004631042480,93.00
-microtime,0.002634000000,0.004975080490,47.00
-
-# Test Parameters
-parameter,value
+password_hash,12.347605000000,14.861681938171,16.00
+sha256,0.534226000000,0.936213970184,42.00
+substr,0.000000000000,0.004586935043,100.00
+gmp_init,0.034452000000,0.018805980682,-83.00
+gmp_mul,0.002876000000,0.016417026520,82.00
+gmp_add,0.001112000000,0.061571836472,98.00
+gmp_div,0.003287000000,0.020609140396,84.00
+hexdec,0.009109000000,0.010591983795,14.00
+get_time,0.000377000000,0.004024028778,90.00
+date_math_add,0.001688000000,0.004823207855,65.00
+date_math_subtract,0.000381000000,0.004724979401,91.00
+microtime,0.002623000000,0.014256954193,81.00
+,,,
+# Test Parameters,,,
+parameter,value,,
 iterations_crypto,100
 iterations_fast,100000
 password,correcthorsebatterystaple
 short_string,hello world
-long_string,twlST9KkfP0GiuT7wMV+...
+long_string,LrpLuxyYtVyeOvkjnK+P...
 substr_start,6
 substr_length,5
 gmp_a,1234567890123456789012345678901234567890
 gmp_b,9876543210987654321098765432109876543210
 hex_string,a1b2c3d4e5f6a1b2c3d4e5f6
 seconds_to_add,86400
-seconds_to_subtract,3600
-
-# System Specifications
-spec,value
-os,"Linux devbox 6.8.0 #1 SMP PREEMPT_DYNAMIC Fri Oct 31 08:51:12 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux"
-cpu,"Intel(R) Xeon(R) Processor @ 2.30GHz"
-memory,7.8Gi
+seconds_to_subtract,3600,,
+,,,
+# System Specifications,,,
+spec,value,,
+os,"Linux devbox 6.8.0 #1 SMP PREEMPT_DYNAMIC Fri Oct 31 08:51:12 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux",
+cpu,"Intel(R) Xeon(R) Processor @ 2.30GHz",,
+memory,7.8Gi,,
+c_compiler,"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",,
+glibc,"ldd (Ubuntu GLIBC 2.39-0ubuntu8.6) 2.39",,
+php_version,"PHP 8.3.6 (cli) (built: Jul 14 2025 18:30:55) (NTS)",,
+php_modules,"[PHP Modules],calendar,Core,ctype,date,exif,FFI,fileinfo,filter,ftp,gettext,gmp,hash,iconv,json,libxml,openssl,pcntl,pcre,PDO,Phar,posix,random,readline,Reflection,session,shmop,sockets,sodium,SPL,standard,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib,,[Zend Modules],Zend OPcache,",,
