@@ -59,7 +59,7 @@ The benchmarking process is broken into two main scripts: `compile.sh` and `benc
     ```bash
     ./benchmark.sh [crypto_iterations] [fast_func_iterations]
     ```
-    -   `[crypto_iterations]` is an optional argument for the number of iterations for slow cryptographic functions (e.g., `password_hash`). Defaults to `100`.
+    -   `[crypto_iterations]` is an optional argument for the number of iterations for slow cryptographic functions (e.g., `password_hash`). Defaults to `1000`.
     -   `[fast_func_iterations]` is an optional argument for the number of iterations for all other, faster functions. Defaults to `100000`.
 
     **Example:**
