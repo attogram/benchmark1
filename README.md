@@ -6,7 +6,7 @@ This project provides a simple framework for benchmarking the performance of var
 
 The following functions are included in this benchmark suite:
 
-- `password_hash()` (using Argon2i)
+- `password_hash()` (using Argon2i, mem=32768, time=2, threads=1)
 - `hash('sha256', ...)`
 - `substr()`
 - `gmp_init()`
@@ -78,15 +78,6 @@ The `benchmark.sh` script performs the following actions:
 1.  **Executes Benchmarks:** For each function, it runs both the compiled C executable and the corresponding PHP script, passing the same set of parameters (input data and iterations).
 2.  **Collects Results:** It captures the execution time (in seconds) from the output of each script.
 3.  **Generates Report:** The results are saved in a CSV file at `results/benchmark_results.csv`. The script will also print the contents of this file to the console upon completion.
-
-### A Note on `password_hash`
-
-To ensure a true "apples-to-apples" comparison, both the PHP and C implementations of the `password_hash` benchmark use the exact same parameters for the Argon2i algorithm:
-- **Memory Cost:** 32768 KB
-- **Time Cost:** 2
-- **Threads:** 1
-
-This is achieved by using the `libargon2` reference implementation in the C code, which is the same library used internally by PHP.
 
 ## C Binaries
 
