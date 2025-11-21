@@ -1,0 +1,35 @@
+name: Run Benchmark
+
+on:
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: ./install.sh
+
+      - name: Compile C code
+        run: ./compile.sh
+
+      - name: Run benchmark
+        run: ./benchmark.sh
+
+      - name: Commit and push results
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add results/benchmark_results.csv
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update benchmark results"
+            git push
+          fi
