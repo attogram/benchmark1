@@ -9,7 +9,7 @@ $iterations = (int)$argv[2];
 
 $options = [
     'memory_cost' => 32768,
-    'time_cost'   => 3,
+    'time_cost'   => 2,
     'threads'     => 1,
 ];
 
