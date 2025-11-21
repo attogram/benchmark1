@@ -13,8 +13,8 @@ C_VERSION=$(gcc --version | head -n 1)
 GLIBC_VERSION=$(getconf GNU_LIBC_VERSION)
 
 # --- Configuration ---
-ITERATIONS_CRYPTO=${1:-1000}
-ITERATIONS_FAST=${2:-1000}
+ITERATIONS_CRYPTO=${1:-5000}
+ITERATIONS_FAST=${2:-10000}
 PASSWORD="correcthorsebatterystaple"
 SHORT_STRING="hello world"
 LONG_STRING="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa."
