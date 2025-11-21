@@ -3,6 +3,15 @@
 set -e
 set -o pipefail
 
+# --- System Info ---
+OS_INFO=$(uname -a)
+CPU_INFO=$(lscpu | grep "Model name:" | sed 's/Model name:[ \t]*//')
+MEM_INFO=$(free -h | grep "Mem:" | awk '{print $2}')
+PHP_VERSION=$(php -v | head -n 1)
+PHP_MODULES=$(php -m | tr '\n' ', ' | sed 's/,$//')
+C_VERSION=$(gcc --version | head -n 1)
+GLIBC_VERSION=$(ldd --version | head -n 1)
+
 # --- Configuration ---
 ITERATIONS_CRYPTO=${1:-100}
 ITERATIONS_FAST=${2:-100000}
@@ -21,16 +30,6 @@ RESULTS_FILE="results/benchmark_results.csv"
 # --- Setup ---
 mkdir -p results
 
-# --- Compile C code ---
-echo "Compiling C benchmarks..."
-(cd c && make clean && make)
-if [ $? -ne 0 ]; then
-    echo "C compilation failed. Aborting."
-    exit 1
-fi
-echo "Compilation successful."
-echo ""
-
 # --- Helper Function ---
 run_benchmark() {
     local name=$1
@@ -43,7 +42,14 @@ run_benchmark() {
     echo -n "Benchmarking $name..."
     C_TIME=$(./c/$name "${c_args[@]}" $iterations)
     PHP_TIME=$(php php/$name.php "${php_args[@]}" $iterations)
-    echo "$name,$C_TIME,$PHP_TIME" >> $RESULTS_FILE
+
+    if [ $(echo "$PHP_TIME == 0" | bc) -eq 1 ]; then
+        IMPROVEMENT="N/A"
+    else
+        IMPROVEMENT=$(echo "scale=2; (($PHP_TIME - $C_TIME) / $PHP_TIME) * 100" | bc)
+    fi
+
+    echo "$name,$C_TIME,$PHP_TIME,$IMPROVEMENT" >> $RESULTS_FILE
     echo " Done."
 }
 
@@ -53,7 +59,7 @@ echo "Running benchmarks..."
 echo "Crypto Iterations: $ITERATIONS_CRYPTO"
 echo "Fast Func Iterations: $ITERATIONS_FAST"
 echo "Results will be saved to $RESULTS_FILE"
-echo "function,c_time_s,php_time_s" > $RESULTS_FILE
+echo "function,c_time_s,php_time_s,c_vs_php_improvement_%" > $RESULTS_FILE
 
 run_benchmark "password_hash" $ITERATIONS_CRYPTO "$PASSWORD"
 run_benchmark "sha256" $ITERATIONS_FAST "$LONG_STRING"
@@ -67,6 +73,33 @@ run_benchmark "get_time" $ITERATIONS_FAST
 run_benchmark "date_math_add" $ITERATIONS_FAST $SECONDS_TO_ADD
 run_benchmark "date_math_subtract" $ITERATIONS_FAST $SECONDS_TO_SUBTRACT
 run_benchmark "microtime" $ITERATIONS_FAST
+
+echo ",,," >> $RESULTS_FILE
+echo "# Test Parameters,,," >> $RESULTS_FILE
+echo "parameter,value,," >> $RESULTS_FILE
+echo "iterations_crypto,$ITERATIONS_CRYPTO" >> $RESULTS_FILE
+echo "iterations_fast,$ITERATIONS_FAST" >> $RESULTS_FILE
+echo "password,$PASSWORD" >> $RESULTS_FILE
+echo "short_string,$SHORT_STRING" >> $RESULTS_FILE
+echo "long_string,${LONG_STRING:0:20}..." >> $RESULTS_FILE
+echo "substr_start,$SUBSTR_START" >> $RESULTS_FILE
+echo "substr_length,$SUBSTR_LENGTH" >> $RESULTS_FILE
+echo "gmp_a,$GMP_A" >> $RESULTS_FILE
+echo "gmp_b,$GMP_B" >> $RESULTS_FILE
+echo "hex_string,$HEX_STRING" >> $RESULTS_FILE
+echo "seconds_to_add,$SECONDS_TO_ADD" >> $RESULTS_FILE
+echo "seconds_to_subtract,$SECONDS_TO_SUBTRACT,," >> $RESULTS_FILE
+
+echo ",,," >> $RESULTS_FILE
+echo "# System Specifications,,," >> $RESULTS_FILE
+echo "spec,value,," >> $RESULTS_FILE
+echo "os,\"$OS_INFO\"," >> $RESULTS_FILE
+echo "cpu,\"$CPU_INFO\",," >> $RESULTS_FILE
+echo "memory,$MEM_INFO,," >> $RESULTS_FILE
+echo "c_compiler,\"$C_VERSION\",," >> $RESULTS_FILE
+echo "glibc,\"$GLIBC_VERSION\",," >> $RESULTS_FILE
+echo "php_version,\"$PHP_VERSION\",," >> $RESULTS_FILE
+echo "php_modules,\"$PHP_MODULES\",," >> $RESULTS_FILE
 
 echo ""
 echo "Benchmarking complete."

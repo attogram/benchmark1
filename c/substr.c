@@ -20,14 +20,12 @@ int main(int argc, char *argv[]) {
     int iterations = atoi(argv[4]);
 
     char dest[length + 1];
-    volatile int total_length = 0;
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
         substring(string, start_pos, length, dest);
-        total_length += strlen(dest);
     }
 
     gettimeofday(&end, NULL);

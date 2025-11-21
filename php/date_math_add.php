@@ -6,20 +6,13 @@ if ($argc != 3) {
 
 $seconds_to_add = (int)$argv[1];
 $iterations = (int)$argv[2];
-$sum = 0;
 
 $start = microtime(true);
 
 for ($i = 0; $i < $iterations; $i++) {
     $time = time();
     $time += $seconds_to_add;
-    $sum += $time;
 }
 
 $end = microtime(true);
 echo sprintf('%.12f', $end - $start) . "\n";
-
-// Use the result to prevent dead code elimination
-if ($sum < 0) {
-    echo "Impossible sum\n";
-}

@@ -11,7 +11,6 @@ int main(int argc, char *argv[]) {
 
     int seconds_to_subtract = atoi(argv[1]);
     int iterations = atoi(argv[2]);
-    volatile time_t sum = 0;
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
@@ -19,7 +18,6 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < iterations; i++) {
         time_t current_time = time(NULL);
         current_time -= seconds_to_subtract;
-        sum += current_time;
     }
 
     gettimeofday(&end, NULL);

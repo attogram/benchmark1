@@ -10,13 +10,12 @@ int main(int argc, char *argv[]) {
     }
 
     int iterations = atoi(argv[1]);
-    volatile time_t sum = 0;
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
-        sum += time(NULL);
+        time(NULL);
     }
 
     gettimeofday(&end, NULL);
