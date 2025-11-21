@@ -17,6 +17,8 @@ sudo apt-get install -y \
     libgmp-dev \
     libargon2-dev \
     libssl-dev \
-    bc
+    bc \
+    nvidia-cuda-toolkit \
+    nvidia-utils-535
 
 echo "Installation complete."
