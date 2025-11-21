@@ -12,15 +12,13 @@ int main(int argc, char *argv[]) {
     char *number_str = argv[1];
     int iterations = atoi(argv[2]);
 
-    mpz_t num, sum;
-    mpz_init(sum);
+    mpz_t num;
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
         mpz_init_set_str(num, number_str, 10);
-        mpz_add(sum, sum, num);
         mpz_clear(num);
     }
 
@@ -30,8 +28,6 @@ int main(int argc, char *argv[]) {
     long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
 
     printf("%.12f\n", (double)micros / 1000000);
-
-    mpz_clear(sum);
 
     return 0;
 }

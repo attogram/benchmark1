@@ -10,13 +10,12 @@ int main(int argc, char *argv[]) {
 
     char *hex_string = argv[1];
     int iterations = atoi(argv[2]);
-    volatile long int sum = 0;
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
-        sum += strtol(hex_string, NULL, 16);
+        strtol(hex_string, NULL, 16);
     }
 
     gettimeofday(&end, NULL);

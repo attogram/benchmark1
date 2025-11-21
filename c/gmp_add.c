@@ -13,18 +13,16 @@ int main(int argc, char *argv[]) {
     char *b_str = argv[2];
     int iterations = atoi(argv[3]);
 
-    mpz_t a, b, result, sum;
+    mpz_t a, b, result;
     mpz_init_set_str(a, a_str, 10);
     mpz_init_set_str(b, b_str, 10);
     mpz_init(result);
-    mpz_init(sum);
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
         mpz_add(result, a, b);
-        mpz_add(sum, sum, result);
     }
 
     gettimeofday(&end, NULL);
@@ -37,7 +35,6 @@ int main(int argc, char *argv[]) {
     mpz_clear(a);
     mpz_clear(b);
     mpz_clear(result);
-    mpz_clear(sum);
 
     return 0;
 }
