@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 #include <time.h>
 
 int main(int argc, char *argv[]) {
@@ -9,22 +10,21 @@ int main(int argc, char *argv[]) {
     }
 
     int iterations = atoi(argv[1]);
-    volatile time_t current_time;
+    volatile time_t sum = 0;
 
-    clock_t start = clock();
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
-        current_time = time(NULL);
+        sum += time(NULL);
     }
 
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f\n", time_spent);
+    gettimeofday(&end, NULL);
 
-    // The following line is to prevent the compiler from optimizing away the benchmarked code.
-    if (current_time == 123456789) {
-        printf("Unlikely value\n");
-    }
+    long seconds = (end.tv_sec - start.tv_sec);
+    long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
+
+    printf("%.12f\n", (double)micros / 1000000);
 
     return 0;
 }

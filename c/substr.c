@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 
 void substring(const char* source, int start, int length, char* destination) {
     strncpy(destination, source + start, length);
@@ -20,16 +20,22 @@ int main(int argc, char *argv[]) {
     int iterations = atoi(argv[4]);
 
     char dest[length + 1];
+    volatile int total_length = 0;
 
-    clock_t start = clock();
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
         substring(string, start_pos, length, dest);
+        total_length += strlen(dest);
     }
 
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f\n", time_spent);
+    gettimeofday(&end, NULL);
+
+    long seconds = (end.tv_sec - start.tv_sec);
+    long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
+
+    printf("%.12f\n", (double)micros / 1000000);
 
     return 0;
 }

@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <sodium.h>
+#include <sys/time.h>
+#include <argon2.h>
+
+#define SALT_LEN 16
+#define HASH_LEN 32
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -12,29 +15,27 @@ int main(int argc, char *argv[]) {
 
     char *password = argv[1];
     int iterations = atoi(argv[2]);
+    uint32_t t_cost = 3;
+    uint32_t m_cost = 32768;
+    uint32_t parallelism = 1;
 
-    if (sodium_init() < 0) {
-        fprintf(stderr, "Failed to initialize libsodium\n");
-        return 1;
-    }
+    unsigned char salt[SALT_LEN];
+    memset(salt, 0x00, SALT_LEN);
+    volatile unsigned char hash[HASH_LEN];
 
-    clock_t start = clock();
-
-    unsigned long long opslimit = 3;
-    size_t memlimit = 32768 * 1024;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
-        char hashed_password[crypto_pwhash_STRBYTES];
-        if (crypto_pwhash_str_alg(hashed_password, password, strlen(password),
-                                  opslimit, memlimit, crypto_pwhash_ALG_ARGON2I13) != 0) {
-            fprintf(stderr, "Failed to hash password\n");
-            return 1;
-        }
+        argon2i_hash_raw(t_cost, m_cost, parallelism, password, strlen(password), salt, SALT_LEN, (unsigned char *)hash, HASH_LEN);
     }
 
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f\n", time_spent);
+    gettimeofday(&end, NULL);
+
+    long seconds = (end.tv_sec - start.tv_sec);
+    long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
+
+    printf("%.12f\n", (double)micros / 1000000);
 
     return 0;
 }

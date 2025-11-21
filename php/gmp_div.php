@@ -10,12 +10,19 @@ $iterations = (int)$argv[3];
 
 $a = gmp_init($a_str);
 $b = gmp_init($b_str);
+$sum = gmp_init(0);
 
 $start = microtime(true);
 
 for ($i = 0; $i < $iterations; $i++) {
-    gmp_div($a, $b);
+    $res = gmp_div($a, $b);
+    $sum = gmp_add($sum, $res);
 }
 
 $end = microtime(true);
 echo sprintf('%.12f', $end - $start) . "\n";
+
+// Use the result to prevent dead code elimination
+if (gmp_cmp($sum, 0) < 0) {
+    echo "Impossible sum\n";
+}

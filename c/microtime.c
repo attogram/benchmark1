@@ -9,13 +9,13 @@ int main(int argc, char *argv[]) {
     }
 
     int iterations = atoi(argv[1]);
+    volatile struct timeval tv;
 
     struct timeval start, end;
     gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
+        gettimeofday((struct timeval *)&tv, NULL);
     }
 
     gettimeofday(&end, NULL);
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     long seconds = (end.tv_sec - start.tv_sec);
     long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
 
-    printf("%f\n", (double)micros / 1000000);
+    printf("%.12f\n", (double)micros / 1000000);
 
     return 0;
 }

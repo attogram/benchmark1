@@ -33,10 +33,10 @@ The following functions are included in this benchmark suite:
     ```
 
 2.  **Install C Dependencies:**
-    This will install the GCC compiler, `make`, and the necessary development libraries for `libsodium`, `libgmp`, and `libssl`.
+    This will install the GCC compiler, `make`, and the necessary development libraries for `libargon2`, `libgmp`, and `libssl`.
     ```bash
     sudo apt-get update
-    sudo apt-get install -y gcc make libsodium-dev libgmp-dev libssl-dev
+    sudo apt-get install -y gcc make libargon2-dev libgmp-dev libssl-dev
     ```
 
 3.  **Install PHP Dependencies:**
@@ -57,18 +57,18 @@ The entire benchmarking process is automated with a single script.
 
 2.  **Run the benchmark suite:**
     ```bash
-    ./benchmark.sh [iterations]
+    ./benchmark.sh [crypto_iterations] [fast_func_iterations]
     ```
-    -   `[iterations]` is an optional argument that specifies the number of times each function should be executed in a loop.
-    -   If not provided, it defaults to `10000`.
+    -   `[crypto_iterations]` is an optional argument for the number of iterations for slow cryptographic functions (e.g., `password_hash`). Defaults to `100`.
+    -   `[fast_func_iterations]` is an optional argument for the number of iterations for all other, faster functions. Defaults to `100000`.
 
     **Example:**
     ```bash
-    # Run with default iterations (10000)
+    # Run with default iterations
     ./benchmark.sh
 
-    # Run with 100,000 iterations
-    ./benchmark.sh 100000
+    # Run with 10 crypto iterations and 1,000,000 fast function iterations
+    ./benchmark.sh 10 1000000
     ```
 
 ## How it Works
@@ -82,8 +82,13 @@ The `benchmark.sh` script performs the following actions:
 
 ### A Note on `password_hash`
 
-The PHP `password_hash` function with `PASSWORD_ARGON2I` allows a `time_cost` of 2. However, the `libsodium` library used for the C implementation requires a minimum `opslimit` (the equivalent of `time_cost`) of 3 for the Argon2i algorithm. To ensure the C code runs, it uses an `opslimit` of 3. This is a known difference between the two benchmark implementations.
+To ensure a true "apples-to-apples" comparison, both the PHP and C implementations of the `password_hash` benchmark use the exact same parameters for the Argon2i algorithm:
+- **Memory Cost:** 32768 KB
+- **Time Cost:** 3
+- **Threads:** 1
+
+This is achieved by using the `libargon2` reference implementation in the C code, which is the same library used internally by PHP.
 
 ## C Binaries
 
-The repository does not include pre-compiled C binaries. You must compile them yourself by running the `benchmark.sh` script, which handles the compilation automatically. To compile the C code manually, you can run `make` inside the `c/` directory after installing the required dependencies.
+The repository includes pre-compiled C binaries for convenience. You can re-compile them at any time by running the `benchmark.sh` script or by running `make` inside the `c/` directory.

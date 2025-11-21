@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <openssl/sha.h>
+#include <sys/time.h>
+#include <openssl/evp.h>
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -12,18 +12,32 @@ int main(int argc, char *argv[]) {
 
     char *string = argv[1];
     int iterations = atoi(argv[2]);
+    size_t string_len = strlen(string);
+    volatile unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len;
 
-    unsigned char hash[SHA256_DIGEST_LENGTH];
+    EVP_MD_CTX *mdctx;
+    const EVP_MD *md;
 
-    clock_t start = clock();
+    md = EVP_sha256();
+    mdctx = EVP_MD_CTX_new();
+
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
-        SHA256((unsigned char*)string, strlen(string), hash);
+        EVP_DigestInit_ex(mdctx, md, NULL);
+        EVP_DigestUpdate(mdctx, string, string_len);
+        EVP_DigestFinal_ex(mdctx, (unsigned char *)hash, &hash_len);
     }
 
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f\n", time_spent);
+    gettimeofday(&end, NULL);
+    EVP_MD_CTX_free(mdctx);
+
+    long seconds = (end.tv_sec - start.tv_sec);
+    long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
+
+    printf("%.12f\n", (double)micros / 1000000);
 
     return 0;
 }

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <sys/time.h>
 #include <gmp.h>
 
 int main(int argc, char *argv[]) {
@@ -12,18 +12,26 @@ int main(int argc, char *argv[]) {
     char *number_str = argv[1];
     int iterations = atoi(argv[2]);
 
-    mpz_t num;
+    mpz_t num, sum;
+    mpz_init(sum);
 
-    clock_t start = clock();
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
 
     for (int i = 0; i < iterations; i++) {
         mpz_init_set_str(num, number_str, 10);
+        mpz_add(sum, sum, num);
         mpz_clear(num);
     }
 
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("%f\n", time_spent);
+    gettimeofday(&end, NULL);
+
+    long seconds = (end.tv_sec - start.tv_sec);
+    long micros = ((seconds * 1000000) + end.tv_usec) - (start.tv_usec);
+
+    printf("%.12f\n", (double)micros / 1000000);
+
+    mpz_clear(sum);
 
     return 0;
 }

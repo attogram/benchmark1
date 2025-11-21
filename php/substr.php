@@ -8,12 +8,19 @@ $string = $argv[1];
 $start_pos = (int)$argv[2];
 $length = (int)$argv[3];
 $iterations = (int)$argv[4];
+$total_length = 0;
 
 $start = microtime(true);
 
 for ($i = 0; $i < $iterations; $i++) {
-    substr($string, $start_pos, $length);
+    $sub = substr($string, $start_pos, $length);
+    $total_length += strlen($sub);
 }
 
 $end = microtime(true);
 echo sprintf('%.12f', $end - $start) . "\n";
+
+// Use the result to prevent dead code elimination
+if ($total_length < 0) {
+    echo "Impossible length\n";
+}
