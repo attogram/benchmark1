@@ -13,8 +13,8 @@ C_VERSION=$(gcc --version | head -n 1)
 GLIBC_VERSION=$(ldd --version | head -n 1)
 
 # --- Configuration ---
-ITERATIONS_CRYPTO=${1:-1000}
-ITERATIONS_FAST=${2:-100000}
+ITERATIONS_CRYPTO=${1:-20000}
+ITERATIONS_FAST=${2:-20000}
 PASSWORD="correcthorsebatterystaple"
 SHORT_STRING="hello world"
 LONG_STRING=$(head -c 1024 /dev/urandom | base64)
