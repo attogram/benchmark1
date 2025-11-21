@@ -4,10 +4,14 @@ set -e
 set -o pipefail
 
 echo "Compiling C benchmarks..."
-(cd c && make clean && make)
-if [ $? -ne 0 ]; then
-    echo "C compilation failed. Aborting."
-    exit 1
-fi
+
+# Navigate to the C directory
+cd c
+
+# Clean any old binaries
+make clean
+
+# Compile all benchmarks
+make
+
 echo "Compilation successful."
-echo ""

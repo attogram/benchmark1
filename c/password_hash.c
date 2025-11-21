@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
 
     char *password = argv[1];
     int iterations = atoi(argv[2]);
-    uint32_t t_cost = 3;
+    uint32_t t_cost = 2;
     uint32_t m_cost = 32768;
     uint32_t parallelism = 1;
 

@@ -6,7 +6,7 @@ This project provides a simple framework for benchmarking the performance of var
 
 The following functions are included in this benchmark suite:
 
-- `password_hash()` (using Argon2i)
+- `password_hash()` (using Argon2i, mem=32768, time=2, threads=1)
 - `hash('sha256', ...)`
 - `substr()`
 - `gmp_init()`
@@ -32,34 +32,34 @@ The following functions are included in this benchmark suite:
     cd <repository-directory>
     ```
 
-2.  **Install C Dependencies:**
-    This will install the GCC compiler, `make`, and the necessary development libraries for `libargon2`, `libgmp`, and `libssl`.
+2.  **Run the installer:**
+    The `install.sh` script will update your package manager and install all the required dependencies (`gcc`, `make`, `php`, `php-gmp`, `libgmp-dev`, `libargon2-dev`, `libssl-dev`, and `bc`).
     ```bash
-    sudo apt-get update
-    sudo apt-get install -y gcc make libargon2-dev libgmp-dev libssl-dev
-    ```
-
-3.  **Install PHP Dependencies:**
-    This will install the PHP command-line interface and the GMP extension required for the `gmp_*` benchmarks.
-    ```bash
-    sudo apt-get install -y php php-gmp
+    ./install.sh
     ```
 
 ## How to Run the Benchmarks
 
-The entire benchmarking process is automated with a single script.
+The benchmarking process is broken into two main scripts: `compile.sh` and `benchmark.sh`.
 
-1.  **Make the script executable:**
+1.  **Make the scripts executable:**
     (This only needs to be done once.)
     ```bash
+    chmod +x compile.sh
     chmod +x benchmark.sh
     ```
 
-2.  **Run the benchmark suite:**
+2.  **Compile the C code:**
+    This script navigates to the `c/` directory, cleans any old binaries, and compiles all the C source files using the optimized flags specified in the `Makefile`.
+    ```bash
+    ./compile.sh
+    ```
+
+3.  **Run the benchmark suite:**
     ```bash
     ./benchmark.sh [crypto_iterations] [fast_func_iterations]
     ```
-    -   `[crypto_iterations]` is an optional argument for the number of iterations for slow cryptographic functions (e.g., `password_hash`). Defaults to `100`.
+    -   `[crypto_iterations]` is an optional argument for the number of iterations for slow cryptographic functions (e.g., `password_hash`). Defaults to `1000`.
     -   `[fast_func_iterations]` is an optional argument for the number of iterations for all other, faster functions. Defaults to `100000`.
 
     **Example:**
@@ -75,20 +75,10 @@ The entire benchmarking process is automated with a single script.
 
 The `benchmark.sh` script performs the following actions:
 
-1.  **Compiles C Code:** It navigates to the `c/` directory, removes any old binaries (`make clean`), and then compiles all the C source files using the optimized flags specified in the `Makefile` (`make`).
-2.  **Executes Benchmarks:** For each function, it runs both the compiled C executable and the corresponding PHP script, passing the same set of parameters (input data and iterations).
-3.  **Collects Results:** It captures the execution time (in seconds) from the output of each script.
-4.  **Generates Report:** The results are saved in a CSV file at `results/benchmark_results.csv`. The script will also print the contents of this file to the console upon completion.
-
-### A Note on `password_hash`
-
-To ensure a true "apples-to-apples" comparison, both the PHP and C implementations of the `password_hash` benchmark use the exact same parameters for the Argon2i algorithm:
-- **Memory Cost:** 32768 KB
-- **Time Cost:** 3
-- **Threads:** 1
-
-This is achieved by using the `libargon2` reference implementation in the C code, which is the same library used internally by PHP.
+1.  **Executes Benchmarks:** For each function, it runs both the compiled C executable and the corresponding PHP script, passing the same set of parameters (input data and iterations).
+2.  **Collects Results:** It captures the execution time (in seconds) from the output of each script.
+3.  **Generates Report:** The results are saved in a CSV file at `results/benchmark_results.csv`. The script will also print the contents of this file to the console upon completion.
 
 ## C Binaries
 
-The repository includes pre-compiled C binaries for convenience. You can re-compile them at any time by running the `benchmark.sh` script or by running `make` inside the `c/` directory.
+You can compile the C binaries at any time by running the `./compile.sh` script or by running `make` inside the `c/` directory. The compiled binaries are committed to the repository.
