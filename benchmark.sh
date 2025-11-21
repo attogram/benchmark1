@@ -13,8 +13,8 @@ C_VERSION=$(gcc --version | head -n 1)
 GLIBC_VERSION=$(ldd --version | head -n 1)
 
 # --- Configuration ---
-ITERATIONS_CRYPTO=${1:-20000}
-ITERATIONS_FAST=${2:-20000}
+ITERATIONS_CRYPTO=${1:-1000}
+ITERATIONS_FAST=${2:-1000}
 PASSWORD="correcthorsebatterystaple"
 SHORT_STRING="hello world"
 LONG_STRING="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa."
@@ -23,8 +23,8 @@ SUBSTR_LENGTH=8
 GMP_A="1234567890123456789012345678901234567890"
 GMP_B="9876543210987654321098765432109876543210"
 HEX_STRING="a1b2c3d4e5f6a1b2c3d4e5f6"
-SECONDS_TO_ADD=10000
-SECONDS_TO_SUBTRACT=10000
+SECONDS_TO_ADD=100000
+SECONDS_TO_SUBTRACT=100000
 RESULTS_FILE="results/benchmark_results.csv"
 
 # --- Setup ---
