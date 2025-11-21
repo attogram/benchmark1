@@ -119,32 +119,32 @@ run_benchmark "date_math_add" $ITERATIONS_FAST $SECONDS_TO_ADD
 run_benchmark "date_math_subtract" $ITERATIONS_FAST $SECONDS_TO_SUBTRACT
 run_benchmark "microtime" $ITERATIONS_FAST
 
-echo ",,,,,,, " >> $RESULTS_FILE
-echo ",,,,,# Test Parameters,," >> $RESULTS_FILE
-echo ",,,,,parameter,value," >> $RESULTS_FILE
-echo ",,,,,iterations_crypto,$ITERATIONS_CRYPTO," >> $RESULTS_FILE
-echo ",,,,,iterations_fast,$ITERATIONS_FAST," >> $RESULTS_FILE
-echo ",,,,,password,$PASSWORD," >> $RESULTS_FILE
-echo ",,,,,short_string,$SHORT_STRING," >> $RESULTS_FILE
-echo ",,,,,long_string,${LONG_STRING:0:20}...," >> $RESULTS_FILE
-echo ",,,,,substr_start,$SUBSTR_START," >> $RESULTS_FILE
-echo ",,,,,substr_length,$SUBSTR_LENGTH," >> $RESULTS_FILE
-echo ",,,,,gmp_a,$GMP_A," >> $RESULTS_FILE
-echo ",,,,,gmp_b,$GMP_B," >> $RESULTS_FILE
-echo ",,,,,hex_string,$HEX_STRING," >> $RESULTS_FILE
-echo ",,,,,seconds_to_add,$SECONDS_TO_ADD," >> $RESULTS_FILE
-echo ",,,,,seconds_to_subtract,$SECONDS_TO_SUBTRACT," >> $RESULTS_FILE
+echo ",,,,,," >> $RESULTS_FILE
+echo ",,,,,# Test Parameters," >> $RESULTS_FILE
+echo ",,,,,parameter,value" >> $RESULTS_FILE
+echo ",,,,,iterations_crypto,$ITERATIONS_CRYPTO" >> $RESULTS_FILE
+echo ",,,,,iterations_fast,$ITERATIONS_FAST" >> $RESULTS_FILE
+echo ",,,,,password,$PASSWORD" >> $RESULTS_FILE
+echo ",,,,,short_string,$SHORT_STRING" >> $RESULTS_FILE
+echo ",,,,,long_string,${LONG_STRING:0:20}..." >> $RESULTS_FILE
+echo ",,,,,substr_start,$SUBSTR_START" >> $RESULTS_FILE
+echo ",,,,,substr_length,$SUBSTR_LENGTH" >> $RESULTS_FILE
+echo ",,,,,gmp_a,$GMP_A" >> $RESULTS_FILE
+echo ",,,,,gmp_b,$GMP_B" >> $RESULTS_FILE
+echo ",,,,,hex_string,$HEX_STRING" >> $RESULTS_FILE
+echo ",,,,,seconds_to_add,$SECONDS_TO_ADD" >> $RESULTS_FILE
+echo ",,,,,seconds_to_subtract,$SECONDS_TO_SUBTRACT" >> $RESULTS_FILE
 
-echo ",,,,,,, " >> $RESULTS_FILE
-echo ",,,,,# System Specifications,," >> $RESULTS_FILE
-echo ",,,,,spec,value," >> $RESULTS_FILE
-echo ",,,,,os,\"$OS_INFO\"," >> $RESULTS_FILE
-echo ",,,,,cpu,\"$CPU_INFO\"," >> $RESULTS_FILE
-echo ",,,,,memory,$MEM_INFO," >> $RESULTS_FILE
-echo ",,,,,c_compiler,\"$C_VERSION\"," >> $RESULTS_FILE
-echo ",,,,,glibc,\"$GLIBC_VERSION\"," >> $RESULTS_FILE
-echo ",,,,,php_version,\"$PHP_VERSION\"," >> $RESULTS_FILE
-echo ",,,,,php_modules,\"$PHP_MODULES\"," >> $RESULTS_FILE
+echo ",,,,,," >> $RESULTS_FILE
+echo ",,,,,# System Specifications," >> $RESULTS_FILE
+echo ",,,,,spec,value" >> $RESULTS_FILE
+echo ",,,,,os,\"$OS_INFO\"" >> $RESULTS_FILE
+echo ",,,,,cpu,\"$CPU_INFO\"" >> $RESULTS_FILE
+echo ",,,,,memory,$MEM_INFO" >> $RESULTS_FILE
+echo ",,,,,c_compiler,\"$C_VERSION\"" >> $RESULTS_FILE
+echo ",,,,,glibc,\"$GLIBC_VERSION\"" >> $RESULTS_FILE
+echo ",,,,,php_version,\"$PHP_VERSION\"" >> $RESULTS_FILE
+echo ",,,,,php_modules,\"$PHP_MODULES\"" >> $RESULTS_FILE
 
 echo ""
 echo "Benchmarking complete."
