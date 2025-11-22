@@ -16,8 +16,8 @@ jobs:
       - name: Install dependencies
         run: ./install.sh
 
-      - name: Compile C code
-        run: ./compile.sh
+      #- name: Compile C code
+      #  run: ./compile.sh
 
       - name: Run benchmark
         run: ./benchmark.sh
