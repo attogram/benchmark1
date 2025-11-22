@@ -1,21 +1,21 @@
 function,iterations,c_time,php_time,c_vs_php_%,c_gpu_time,c_gpu_vs_c_cpu_%
-password_hash,10,0.857901000000,0.830612897873,-3.00,N/A (No GPU),N/A
-sha256,100,0.001536000000,0.000092983246,-1551.00,N/A,N/A
-substr,100,0.000000000000,0.000005006790,100.00,N/A,N/A
-gmp_init,100,0.000042000000,0.000037908554,-10.00,N/A,N/A
-gmp_mul,100,0.000005000000,0.000017881393,72.00,N/A,N/A
-gmp_add,100,0.000002000000,0.000016927719,88.00,N/A,N/A
-gmp_div,100,0.000006000000,0.000027894974,78.00,N/A,N/A
-hexdec,100,0.000009000000,0.000011205673,19.00,N/A,N/A
-get_time,100,0.000000000000,0.000003814697,100.00,N/A,N/A
-date_math_add,100,0.000000000000,0.000005960464,100.00,N/A,N/A
-date_math_subtract,100,0.000000000000,0.000005006790,100.00,N/A,N/A
-microtime,100,0.000002000000,0.000005006790,60.00,N/A,N/A
+password_hash,5000,176.252689000000,180.276350975037,2.00,N/A (No GPU),N/A
+sha256,10000,0.004734000000,0.008186101913,42.00,N/A,N/A
+substr,10000,0.000000000000,0.002360105515,100.00,N/A,N/A
+gmp_init,10000,0.000789000000,0.003194093704,75.00,N/A,N/A
+gmp_mul,10000,0.000152000000,0.003101825714,95.00,N/A,N/A
+gmp_add,10000,0.000074000000,0.003020048141,97.00,N/A,N/A
+gmp_div,10000,0.000204000000,0.003501892090,94.00,N/A,N/A
+hexdec,10000,0.000361000000,0.002308130264,84.00,N/A,N/A
+get_time,10000,0.000030000000,0.001369953156,97.00,N/A,N/A
+date_math_add,10000,0.000031000000,0.001681804657,98.00,N/A,N/A
+date_math_subtract,10000,0.000031000000,0.001677036285,98.00,N/A,N/A
+microtime,10000,0.000268000000,0.002048015594,86.00,N/A,N/A
 ,,,,,,
 ,,,,,# Test Parameters,
 ,,,,,parameter,value
-,,,,,iterations_crypto,10
-,,,,,iterations_fast,100
+,,,,,iterations_crypto,5000
+,,,,,iterations_fast,10000
 ,,,,,password,correcthorsebatterystaple
 ,,,,,short_string,hello world
 ,,,,,long_string,Lorem ipsum dolor si...
@@ -29,10 +29,10 @@ microtime,100,0.000002000000,0.000005006790,60.00,N/A,N/A
 ,,,,,,
 ,,,,,# System Specifications,
 ,,,,,spec,value
-,,,,,os,"Linux devbox 6.8.0 #1 SMP PREEMPT_DYNAMIC Fri Oct 31 08:51:12 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux"
-,,,,,cpu,"Intel(R) Xeon(R) Processor @ 2.30GHz"
-,,,,,memory,7.8Gi
+,,,,,os,"Linux runnervmg1sw1 6.11.0-1018-azure #18~24.04.1-Ubuntu SMP Sat Jun 28 04:46:03 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux"
+,,,,,cpu,"AMD EPYC 7763 64-Core Processor"
+,,,,,memory,15Gi
 ,,,,,c_compiler,"gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0"
 ,,,,,glibc,"glibc 2.39"
 ,,,,,php_version,"PHP 8.3.6 (cli) (built: Jul 14 2025 18:30:55) (NTS)"
-,,,,,php_modules,"[PHP Modules],calendar,Core,ctype,date,exif,FFI,fileinfo,filter,ftp,gettext,gmp,hash,iconv,json,libxml,openssl,pcntl,pcre,PDO,Phar,posix,random,readline,Reflection,session,shmop,sockets,sodium,SPL,standard,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib,,[Zend Modules],Zend OPcache,"
+,,,,,php_modules,"[PHP Modules],amqp,apcu,bcmath,bz2,calendar,Core,ctype,curl,date,dba,dom,enchant,exif,FFI,fileinfo,filter,ftp,gd,gettext,gmp,hash,iconv,igbinary,imagick,imap,intl,json,ldap,libxml,mbstring,memcache,memcached,mongodb,msgpack,mysqli,mysqlnd,odbc,openssl,pcntl,pcre,PDO,pdo_dblib,PDO_Firebird,pdo_mysql,PDO_ODBC,pdo_pgsql,pdo_sqlite,pgsql,Phar,posix,pspell,random,readline,redis,Reflection,session,shmop,SimpleXML,snmp,soap,sockets,sodium,SPL,sqlite3,standard,sysvmsg,sysvsem,sysvshm,tidy,tokenizer,xdebug,xml,xmlreader,xmlwriter,xsl,yaml,Zend OPcache,zip,zlib,zmq,,[Zend Modules],Xdebug,Zend OPcache,"
