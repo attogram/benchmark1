@@ -49,19 +49,64 @@ run_benchmark() {
         IMPROVEMENT=$(echo "scale=2; (($PHP_TIME - $C_TIME) / $PHP_TIME) * 100" | bc)
     fi
 
-    echo "$name,$iterations,$C_TIME,$PHP_TIME,$IMPROVEMENT,,," >> $RESULTS_FILE
+    echo "$name,$iterations,$C_TIME,$PHP_TIME,$IMPROVEMENT,N/A,N/A" >> $RESULTS_FILE
     echo " Done."
 }
 
+run_gpu_benchmark() {
+    local name=$1
+    local c_name="c/${name}"
+    local c_gpu_name="c/${name}_gpu"
+    shift
+    local iterations=$1
+    shift
+    local c_args=("$@")
+    local php_args=("$@")
+
+    echo -n "Benchmarking $name (CPU vs. GPU)..."
+    C_TIME=$(./$c_name "${c_args[@]}" $iterations)
+    PHP_TIME=$(php php/$name.php "${php_args[@]}" $iterations)
+
+    C_GPU_TIME="N/A"
+    GPU_IMPROVEMENT="N/A"
+    if [ -f "$c_gpu_name" ]; then
+        set +e
+        C_GPU_TIME_OUTPUT=$(./$c_gpu_name "${c_args[@]}" $iterations 2>&1)
+        EXIT_CODE=$?
+        set -e
+
+        if [ $EXIT_CODE -eq 0 ]; then
+            C_GPU_TIME=$(echo "$C_GPU_TIME_OUTPUT")
+            if [ $(echo "$C_TIME == 0" | bc) -eq 1 ]; then
+                GPU_IMPROVEMENT="N/A"
+            else
+                GPU_IMPROVEMENT=$(echo "scale=2; (($C_TIME - $C_GPU_TIME) / $C_TIME) * 100" | bc)
+            fi
+        elif [ $EXIT_CODE -eq 100 ]; then
+            C_GPU_TIME="N/A (No GPU)"
+        else
+            C_GPU_TIME="Error"
+        fi
+    fi
+
+    if [ $(echo "$PHP_TIME == 0" | bc) -eq 1 ]; then
+        IMPROVEMENT="N/A"
+    else
+        IMPROVEMENT=$(echo "scale=2; (($PHP_TIME - $C_TIME) / $PHP_TIME) * 100" | bc)
+    fi
+
+    echo "$name,$iterations,$C_TIME,$PHP_TIME,$IMPROVEMENT,$C_GPU_TIME,$GPU_IMPROVEMENT" >> $RESULTS_FILE
+    echo " Done."
+}
 
 # --- Run Benchmarks ---
 echo "Running benchmarks..."
 echo "Crypto Iterations: $ITERATIONS_CRYPTO"
 echo "Fast Func Iterations: $ITERATIONS_FAST"
 echo "Results will be saved to $RESULTS_FILE"
-echo "function,iterations,c_time,php_time,c_vs_php_%,name,value," > $RESULTS_FILE
+echo "function,iterations,c_time,php_time,c_vs_php_%,c_gpu_time,c_gpu_vs_c_cpu_%" > $RESULTS_FILE
 
-run_benchmark "password_hash" $ITERATIONS_CRYPTO "$PASSWORD"
+run_gpu_benchmark "password_hash" $ITERATIONS_CRYPTO "$PASSWORD"
 run_benchmark "sha256" $ITERATIONS_FAST "$LONG_STRING"
 run_benchmark "substr" $ITERATIONS_FAST "$LONG_STRING" $SUBSTR_START $SUBSTR_LENGTH
 run_benchmark "gmp_init" $ITERATIONS_FAST "$GMP_A"
@@ -74,32 +119,32 @@ run_benchmark "date_math_add" $ITERATIONS_FAST $SECONDS_TO_ADD
 run_benchmark "date_math_subtract" $ITERATIONS_FAST $SECONDS_TO_SUBTRACT
 run_benchmark "microtime" $ITERATIONS_FAST
 
-echo ",,,,,,, " >> $RESULTS_FILE
-echo ",,,,,# Test Parameters,," >> $RESULTS_FILE
-echo ",,,,,parameter,value," >> $RESULTS_FILE
-echo ",,,,,iterations_crypto,$ITERATIONS_CRYPTO," >> $RESULTS_FILE
-echo ",,,,,iterations_fast,$ITERATIONS_FAST," >> $RESULTS_FILE
-echo ",,,,,password,$PASSWORD," >> $RESULTS_FILE
-echo ",,,,,short_string,$SHORT_STRING," >> $RESULTS_FILE
-echo ",,,,,long_string,${LONG_STRING:0:20}...," >> $RESULTS_FILE
-echo ",,,,,substr_start,$SUBSTR_START," >> $RESULTS_FILE
-echo ",,,,,substr_length,$SUBSTR_LENGTH," >> $RESULTS_FILE
-echo ",,,,,gmp_a,$GMP_A," >> $RESULTS_FILE
-echo ",,,,,gmp_b,$GMP_B," >> $RESULTS_FILE
-echo ",,,,,hex_string,$HEX_STRING," >> $RESULTS_FILE
-echo ",,,,,seconds_to_add,$SECONDS_TO_ADD," >> $RESULTS_FILE
-echo ",,,,,seconds_to_subtract,$SECONDS_TO_SUBTRACT," >> $RESULTS_FILE
+echo ",,,,,," >> $RESULTS_FILE
+echo ",,,,,# Test Parameters," >> $RESULTS_FILE
+echo ",,,,,parameter,value" >> $RESULTS_FILE
+echo ",,,,,iterations_crypto,$ITERATIONS_CRYPTO" >> $RESULTS_FILE
+echo ",,,,,iterations_fast,$ITERATIONS_FAST" >> $RESULTS_FILE
+echo ",,,,,password,$PASSWORD" >> $RESULTS_FILE
+echo ",,,,,short_string,$SHORT_STRING" >> $RESULTS_FILE
+echo ",,,,,long_string,${LONG_STRING:0:20}..." >> $RESULTS_FILE
+echo ",,,,,substr_start,$SUBSTR_START" >> $RESULTS_FILE
+echo ",,,,,substr_length,$SUBSTR_LENGTH" >> $RESULTS_FILE
+echo ",,,,,gmp_a,$GMP_A" >> $RESULTS_FILE
+echo ",,,,,gmp_b,$GMP_B" >> $RESULTS_FILE
+echo ",,,,,hex_string,$HEX_STRING" >> $RESULTS_FILE
+echo ",,,,,seconds_to_add,$SECONDS_TO_ADD" >> $RESULTS_FILE
+echo ",,,,,seconds_to_subtract,$SECONDS_TO_SUBTRACT" >> $RESULTS_FILE
 
-echo ",,,,,,, " >> $RESULTS_FILE
-echo ",,,,,# System Specifications,," >> $RESULTS_FILE
-echo ",,,,,spec,value," >> $RESULTS_FILE
-echo ",,,,,os,\"$OS_INFO\"," >> $RESULTS_FILE
-echo ",,,,,cpu,\"$CPU_INFO\"," >> $RESULTS_FILE
-echo ",,,,,memory,$MEM_INFO," >> $RESULTS_FILE
-echo ",,,,,c_compiler,\"$C_VERSION\"," >> $RESULTS_FILE
-echo ",,,,,glibc,\"$GLIBC_VERSION\"," >> $RESULTS_FILE
-echo ",,,,,php_version,\"$PHP_VERSION\"," >> $RESULTS_FILE
-echo ",,,,,php_modules,\"$PHP_MODULES\"," >> $RESULTS_FILE
+echo ",,,,,," >> $RESULTS_FILE
+echo ",,,,,# System Specifications," >> $RESULTS_FILE
+echo ",,,,,spec,value" >> $RESULTS_FILE
+echo ",,,,,os,\"$OS_INFO\"" >> $RESULTS_FILE
+echo ",,,,,cpu,\"$CPU_INFO\"" >> $RESULTS_FILE
+echo ",,,,,memory,$MEM_INFO" >> $RESULTS_FILE
+echo ",,,,,c_compiler,\"$C_VERSION\"" >> $RESULTS_FILE
+echo ",,,,,glibc,\"$GLIBC_VERSION\"" >> $RESULTS_FILE
+echo ",,,,,php_version,\"$PHP_VERSION\"" >> $RESULTS_FILE
+echo ",,,,,php_modules,\"$PHP_MODULES\"" >> $RESULTS_FILE
 
 echo ""
 echo "Benchmarking complete."
