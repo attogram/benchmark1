@@ -4,7 +4,7 @@ CFLAGS=-O3 -march=native -flto -Wall
 # --- CUDA Configuration ---
 # Check if nvcc is available
 NVCC := $(shell command -v nvcc 2> /dev/null)
-NVCCFLAGS=-O3 -gencode arch=compute_75,code=sm_75 --std=c++11
+NVCCFLAGS=-O3 --std=c++11 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_60,code=sm_60 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_89,code=sm_89 -gencode arch=compute_90,code=sm_90
 
 # --- argon2-gpu Library ---
 ARGON2_GPU_DIR=../argon2-gpu
